@@ -43,10 +43,10 @@ GameObject:
   - component: {fileID: 7123672062809439402}
   - component: {fileID: 7053904548196226176}
   - component: {fileID: 4218753056802859610}
-  - component: {fileID: 7238442043912589098}
+  - component: {fileID: -6650352352560190434}
   m_Layer: 0
   m_Name: Falling_Rock
-  m_TagString: Untagged
+  m_TagString: Falling_Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -131,7 +131,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 40
+  m_Mass: 100
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -156,7 +156,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &7238442043912589098
+--- !u!114 &-6650352352560190434
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -165,9 +165,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 9172563628696163004}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccc2cc8d7b7836045998cbe2ccd75991, type: 3}
+  m_Script: {fileID: 11500000, guid: 2eb105248f82d9f4cb7e32564b15c18b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxspeed: 7
-  addForce: 5
-  knockBack: 0
