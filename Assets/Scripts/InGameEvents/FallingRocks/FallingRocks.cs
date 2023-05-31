@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
-using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FallingRocks : MonoBehaviour
 {
+    [SerializeField]
+    private Camera cam;    
+
     [SerializeField]
     private Transform player;
 
@@ -20,9 +22,6 @@ public class FallingRocks : MonoBehaviour
     [SerializeField]
     private GameObject fallingRockPrefab;
 
-    private GameObject fallingRockClone;
-    private Rigidbody2D rockRB;
-
     private Vector2 fallingRockSpawnPos;
 
     [SerializeField]
@@ -31,13 +30,7 @@ public class FallingRocks : MonoBehaviour
     [HideInInspector]
     public bool startEvent = false;
 
-    private int shadowCount = 0;
-
-    //private bool shadowGrown = false;
-
-    private GameObject[] shadows = new GameObject[10];
-    private GameObject[] rocks = new GameObject[10];
-
+    [SerializeField]
     private float growTime = 2f;
 
     [SerializeField]
@@ -45,14 +38,11 @@ public class FallingRocks : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {        
         if (startEvent)
         {
             startEvent = false;
-            // InvokeRepeating("CreateShadow", 10f, 10f);
             StartCoroutine(Spawn());
-            /*timer += Time.deltaTime;
-            CreateShadow();*/
         }
     }
 
@@ -67,7 +57,15 @@ public class FallingRocks : MonoBehaviour
 
     private IEnumerator CreateShadow()
     {
-        float random = Random.Range(-130, -40);
+        float leftBound = cam.ScreenToWorldPoint(new Vector3(0f, 0f, 0f)).x;
+        float rightBound = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, 0f, 0f)).x;
+
+        if(rightBound > eventStart.transform.position.x)
+        {
+            rightBound = eventStart.transform.position.x;
+        }
+
+        float random = Random.Range(leftBound, rightBound);
         Vector2 shadowPos = new Vector2(random, -1f + 0.8360431f);
         GameObject shadowClone = GameObject.Instantiate(shadowPrefab, shadowPos, Quaternion.identity);
         Vector2 startScale = shadowClone.transform.localScale;
@@ -88,7 +86,6 @@ public class FallingRocks : MonoBehaviour
         GameObject rock = SpawnRock(shadowClone);
 
         StartCoroutine(DestroyShadow(rock, shadowClone));
-
     }
 
     private GameObject SpawnRock(GameObject shadow)
@@ -106,8 +103,4 @@ public class FallingRocks : MonoBehaviour
         }
         Destroy(shadow);
     }
-
-
-
-
 }
