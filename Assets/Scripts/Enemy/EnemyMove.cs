@@ -5,16 +5,21 @@ using UnityEngine;
 public class EnemyMove : MonoBehaviour
 {
     [SerializeField]
-    Transform[] patrolPoints;
     Rigidbody2D rb;
     [SerializeField]
     private float speed = 10f;
-    private float distance = 0f;
-    private int changeDirection = -1;
-    private int currentPoint = 0;
+    private int changeDirection = 1;
     Vector2 facingLeft;
     private bool isFacingLeft = false;
 
+    [SerializeField]
+    private float rayLength = 5f;
+    [SerializeField]
+    private float playerDetectDistance = 10f;
+    [SerializeField]
+    private LayerMask layersToDetect;
+    [SerializeField]
+    private LayerMask playerLayer;
 
 
     private void Awake()
@@ -25,45 +30,55 @@ public class EnemyMove : MonoBehaviour
 
     private void Update()
     {
-        Flip();
-        GetDistanceToPoint(patrolPoints[currentPoint]);
-        ChangePoint();
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(1.5f * changeDirection, -.5f), rayLength, layersToDetect);
+        RaycastHit2D playerDetect = Physics2D.Raycast(transform.position, transform.right * changeDirection, playerDetectDistance, playerLayer);
+        Debug.DrawRay(transform.position, new Vector2(1.5f * changeDirection, -.5f), Color.magenta);
+        Debug.DrawRay(transform.position, new Vector2(10f * changeDirection, 0f), Color.magenta);
+        if(hit.collider != null)
+        {
+            string turnAroundCollider = hit.collider.tag;
+            switch(turnAroundCollider)
+            {
+                case "Wall":
+                case "Water":
+                    Flip();
+                    break;
+            }
+        }
+        else
+        {
+            Flip();
+        }
+        if(playerDetect.collider != null)
+        {
+            string attackPlayer = playerDetect.collider.tag;
+            if(attackPlayer.Equals("Player"))
+            {
+                Debug.Log("PlayerDetected");
+            }
+        }
     }
+
     void FixedUpdate()
     {
         rb.velocity = new Vector2(speed * changeDirection * Time.deltaTime, 0);
     }
 
-    private void GetDistanceToPoint(Transform point)
-    {
-        distance = Mathf.Abs(transform.position.x - point.position.x);
-    }
-
-    private void ChangePoint()
-    {
-        if(distance < .5f && rb.velocity.x < 0)
-        {
-            changeDirection = 1;
-            currentPoint = 1;
-        }
-        if (distance < .5f && rb.velocity.x > 0)
-        {
-            changeDirection = -1;
-            currentPoint = 0;
-        }
-    }
 
     private void Flip()
     {
-        if (currentPoint == 1 && isFacingLeft)
+        if (isFacingLeft)
         {
             isFacingLeft = false;
             transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
+            changeDirection = 1;
         }
-        else if (currentPoint == 0 && !isFacingLeft)
+        else if (!isFacingLeft)
         {
             isFacingLeft = true;
             transform.localScale = facingLeft;
+            changeDirection = -1;
         }
     }
 

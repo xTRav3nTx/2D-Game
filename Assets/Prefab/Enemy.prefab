@@ -70,9 +70,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingLayerID: 199125321
+  m_SortingLayer: 3
+  m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -158,9 +158,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingLayerID: 199125321
+  m_SortingLayer: 3
+  m_SortingOrder: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
   m_Color: {r: 0.9150943, g: 0.0316541, b: 0.0316541, a: 1}
   m_FlipX: 0
@@ -221,7 +221,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0e83462cefe9154589b4288f8b6b884, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patrolPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  speed: 75
+  rb: {fileID: 4496883830676181463}
+  speed: 125
+  rayLength: 5
+  playerDetectDistance: 10
+  layersToDetect:
+    serializedVersion: 2
+    m_Bits: 536
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
