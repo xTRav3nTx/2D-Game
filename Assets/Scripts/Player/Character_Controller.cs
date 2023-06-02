@@ -214,6 +214,7 @@ public class Character_Controller : MonoBehaviour, IPlayerController
 
     #endregion
 
+    [Header("ANIMATOR")][SerializeField] private PlayerAnimation _playerAnimation;
 
     #region Walk
 
@@ -224,7 +225,7 @@ public class Character_Controller : MonoBehaviour, IPlayerController
 
     private void CalculateWalk()
     {
-        if (Input.X != 0)
+        if (Input.X != 0 && _playerAnimation.isAttacking == false)
         {
             // Set horizontal move speed
             _currentHorizontalSpeed += Input.X * _acceleration * Time.deltaTime;
