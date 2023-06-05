@@ -8,9 +8,12 @@ public class EnemyMove : MonoBehaviour
     Rigidbody2D rb;
     [SerializeField]
     private float speed = 10f;
-    private int changeDirection = 1;
+    internal int changeDirection = -1;
     Vector2 facingLeft;
     private bool isFacingLeft = false;
+
+    [SerializeField]
+    private SpriteRenderer bodySprite;
 
     [SerializeField]
     private float rayLength = 5f;
@@ -70,15 +73,17 @@ public class EnemyMove : MonoBehaviour
     {
         if (isFacingLeft)
         {
+            bodySprite.sortingOrder = -1;
             isFacingLeft = false;
             transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
-            changeDirection = 1;
+            changeDirection = -1;
         }
         else if (!isFacingLeft)
         {
+            bodySprite.sortingOrder = -1;
             isFacingLeft = true;
             transform.localScale = facingLeft;
-            changeDirection = -1;
+            changeDirection = 1;
         }
     }
 

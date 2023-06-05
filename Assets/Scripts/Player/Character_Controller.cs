@@ -48,7 +48,6 @@ public class Character_Controller : MonoBehaviour, IPlayerController
         Velocity = (transform.position - _lastPosition) / Time.deltaTime;
         _lastPosition = transform.position;
 
-        Flip();
         Climb();
         GatherInput();
         RunCollisionChecks();
@@ -58,7 +57,11 @@ public class Character_Controller : MonoBehaviour, IPlayerController
         CalculateGravity(); // Vertical movement
         CalculateJump(); // Possibly overrides vertical
 
-        MoveCharacter(); // Actually perform the axis movement
+        if(_playerAnimation.isAttacking == false)
+        {
+            Flip();
+            MoveCharacter(); // Actually perform the axis movement
+        }
     }
 
 
@@ -81,15 +84,19 @@ public class Character_Controller : MonoBehaviour, IPlayerController
 
     #endregion
 
+    [SerializeField] private SpriteRenderer _bodySprite;
+
     private void Flip()
     {
         if (Input.X > 0 && isFacingLeft)
         {
+            _bodySprite.sortingOrder = -1;
             isFacingLeft = false;
             transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
         }
         else if (Input.X < 0 && !isFacingLeft)
         {
+            _bodySprite.sortingOrder = -1;
             isFacingLeft = true;
             transform.localScale = facingLeft;
         }

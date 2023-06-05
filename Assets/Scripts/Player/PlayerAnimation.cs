@@ -27,7 +27,7 @@ public class PlayerAnimation : MonoBehaviour
             playerAnim.Play("Attack");
         }
 
-        StartTimer();
+        AttackTimer();
 
         if (IsAnimationFinished("Attack"))
         {
@@ -67,7 +67,7 @@ public class PlayerAnimation : MonoBehaviour
         return false; 
     }
 
-    private void StartTimer()
+    private void AttackTimer()
     {
         if(isAttacking)
         {
