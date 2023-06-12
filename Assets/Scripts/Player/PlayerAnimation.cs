@@ -10,6 +10,9 @@ public class PlayerAnimation : MonoBehaviour
     private float timer = 0f;
 
     [SerializeField]
+    private Player_Health health;
+
+    [SerializeField]
     private Character_Controller playerController;
     [SerializeField]
     private Animator playerAnim;
@@ -19,37 +22,47 @@ public class PlayerAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetMouseButtonDown(0) && timer == 0)
+        if (!IsAnimationFinished("Die"))
         {
-            isAttacking = true;
-            timer = timeBetweenAttacks;
-            playerAnim.Play("Attack");
-        }
-
-        AttackTimer();
-
-        if (IsAnimationFinished("Attack"))
-        {
-            isAttacking = false;
-            timer = 0f;
-        }
-
-        if(!isAttacking)
-        {
-            if (playerController.Grounded && playerController.Input.X != 0)
+            if (health.IsAlive == false)
             {
-                playerAnim.Play("Run");
-            }
-            else if (!playerController.Grounded)
-            {
-                playerAnim.Play("Jump");
+                playerAnim.Play("Die");
+                playerController.enabled = false;
             }
             else
             {
-                playerAnim.Play("Idle");
+                if (Input.GetMouseButtonDown(0) && timer == 0 && playerController.Grounded)
+                {
+                    isAttacking = true;
+                    timer = timeBetweenAttacks;
+                    playerAnim.Play("Attack");
+                }
+
+                AttackTimer();
+
+                if (IsAnimationFinished("Attack"))
+                {
+                    isAttacking = false;
+                    timer = 0f;
+                }
+
+                if (!isAttacking)
+                {
+                    if (playerController.Grounded && playerController.Input.X != 0)
+                    {
+                        playerAnim.Play("Run");
+                    }
+                    else if (!playerController.Grounded)
+                    {
+                        playerAnim.Play("Jump");
+                    }
+                    else
+                    {
+                        playerAnim.Play("Idle");
+                    }
+                }
             }
-        }
+        } 
     }
 
     private bool IsAnimationFinished(string state)

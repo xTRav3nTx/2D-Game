@@ -13,13 +13,9 @@ public class EnemyAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(enemyRB.velocity.x != 0)
+        if(enemyRB.velocity.x < -.01f || enemyRB.velocity.x > .01f)
         {
             enemyAnim.Play("Run");
-        }
-        else
-        {
-            enemyAnim.Play("Idle");
         }
     }
 }

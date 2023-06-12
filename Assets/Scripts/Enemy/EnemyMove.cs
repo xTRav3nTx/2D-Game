@@ -23,22 +23,43 @@ public class EnemyMove : MonoBehaviour
     private LayerMask layersToDetect;
     [SerializeField]
     private LayerMask playerLayer;
+    private RaycastHit2D hit;
+    private RaycastHit2D playerDetectRight;
+    private RaycastHit2D playerDetectLeft;
+
+
+    [SerializeField]
+    private Transform playerPosition;
+    private bool isChasing = false;
+    private Vector2 playerDirection;
+    [SerializeField]
+    private float chaseSpeed = 12f;
+    [SerializeField]
+    private float attackDistance = 1f;
+
+    private Vector2 previousVelocity;
 
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         facingLeft = new Vector2(-transform.localScale.x, transform.localScale.y);
+        previousVelocity = rb.velocity;
     }
 
     private void Update()
-    {
+    { 
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(1.5f * changeDirection, -.5f), rayLength, layersToDetect);
-        RaycastHit2D playerDetect = Physics2D.Raycast(transform.position, transform.right * changeDirection, playerDetectDistance, playerLayer);
+        playerDirection = playerPosition.position - transform.position;
+        hit = Physics2D.Raycast(transform.position, new Vector2(1.5f * changeDirection, -.5f), rayLength, layersToDetect);
+        playerDetectRight = Physics2D.Raycast(transform.position, transform.right, playerDetectDistance, playerLayer);
+        playerDetectLeft = Physics2D.Raycast(transform.position, -transform.right, playerDetectDistance, playerLayer);
         Debug.DrawRay(transform.position, new Vector2(1.5f * changeDirection, -.5f), Color.magenta);
-        Debug.DrawRay(transform.position, new Vector2(10f * changeDirection, 0f), Color.magenta);
-        if(hit.collider != null)
+        Debug.DrawRay(transform.position, new Vector2(10f, 0f), Color.magenta);
+        Debug.DrawRay(transform.position, new Vector2(-10f, 0f), Color.magenta);
+
+
+        if (hit.collider != null)
         {
             string turnAroundCollider = hit.collider.tag;
             switch(turnAroundCollider)
@@ -53,21 +74,55 @@ public class EnemyMove : MonoBehaviour
         {
             Flip();
         }
-        if(playerDetect.collider != null)
+
+        if(playerDetectRight.collider != null)
         {
-            string attackPlayer = playerDetect.collider.tag;
+            string attackPlayer = playerDetectRight.collider.tag;
             if(attackPlayer.Equals("Player"))
             {
-                Debug.Log("PlayerDetected");
+                Debug.Log("Player Detected");
+                isChasing = true;
+            }
+        }
+        else if(playerDetectLeft.collider != null)
+        {
+            string attackPlayer = playerDetectLeft.collider.tag;
+            if (attackPlayer.Equals("Player"))
+            {
+                Debug.Log("Player Detected");
+                isChasing = true;
             }
         }
     }
 
     void FixedUpdate()
     {
-        rb.velocity = new Vector2(speed * changeDirection * Time.deltaTime, 0);
+        ChasePlayer();
     }
 
+    private void ChasePlayer()
+    {
+        if(Mathf.Abs(transform.position.x - playerPosition.position.x) < attackDistance)
+        {
+            rb.velocity = Vector2.zero;
+        }
+        else
+        {
+            if (isChasing)
+            {
+                rb.velocity = new Vector2(playerDirection.normalized.x * Time.deltaTime * chaseSpeed, 0f);
+                if (Vector2.Dot(rb.velocity.normalized, previousVelocity.normalized) < 0f)
+                {
+                    Flip();
+                }
+                previousVelocity = rb.velocity;
+            }
+            else
+            {
+                rb.velocity = new Vector2(speed * changeDirection * Time.deltaTime, 0f);
+            }
+        }
+    }
 
     private void Flip()
     {
@@ -86,5 +141,4 @@ public class EnemyMove : MonoBehaviour
             changeDirection = 1;
         }
     }
-
 }

@@ -27,6 +27,8 @@ public class Character_Controller : MonoBehaviour, IPlayerController
     private Vector2 facingLeft;
     private bool isFacingLeft = false;
 
+    private Player_Health health;
+
     private Vector3 _lastPosition;
     private float _currentHorizontalSpeed, _currentVerticalSpeed;
 
@@ -37,6 +39,7 @@ public class Character_Controller : MonoBehaviour, IPlayerController
 
     private void Start()
     {
+        health = GetComponent<Player_Health>(); 
         facingLeft = new Vector2(-transform.localScale.x, transform.localScale.y);
         playerCollision = GetComponent<PlayerCollision>();
     }
@@ -62,6 +65,7 @@ public class Character_Controller : MonoBehaviour, IPlayerController
             Flip();
             MoveCharacter(); // Actually perform the axis movement
         }
+
     }
 
 
@@ -90,13 +94,13 @@ public class Character_Controller : MonoBehaviour, IPlayerController
     {
         if (Input.X > 0 && isFacingLeft)
         {
-            _bodySprite.sortingOrder = -1;
+            _bodySprite.sortingOrder = 0;
             isFacingLeft = false;
             transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
         }
         else if (Input.X < 0 && !isFacingLeft)
         {
-            _bodySprite.sortingOrder = -1;
+            _bodySprite.sortingOrder = 0;
             isFacingLeft = true;
             transform.localScale = facingLeft;
         }
