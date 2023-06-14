@@ -10,12 +10,23 @@ public class EnemyAnimation : MonoBehaviour
     [SerializeField]
     private Rigidbody2D enemyRB;
 
+    private EnemyMove enemyMove;
+
+    private void Awake()
+    {
+        enemyMove = GetComponent<EnemyMove>(); 
+    }
+
     // Update is called once per frame
     void Update()
     {
         if(enemyRB.velocity.x < -.01f || enemyRB.velocity.x > .01f)
         {
             enemyAnim.Play("Run");
+        }
+        if(enemyMove.canAttack)
+        {
+            enemyAnim.Play("Attack");
         }
     }
 }

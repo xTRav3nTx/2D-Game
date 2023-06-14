@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,121 +25,112 @@ public class EnemyMove : MonoBehaviour
     [SerializeField]
     private LayerMask playerLayer;
     private RaycastHit2D hit;
-    private RaycastHit2D playerDetectRight;
-    private RaycastHit2D playerDetectLeft;
+    private RaycastHit2D playerDetectFront;
+    private RaycastHit2D playerDetectBehind;
 
 
     [SerializeField]
     private Transform playerPosition;
-    private bool isChasing = false;
     private Vector2 playerDirection;
     [SerializeField]
     private float chaseSpeed = 12f;
     [SerializeField]
     private float attackDistance = 1f;
-
-    private Vector2 previousVelocity;
-
+    private bool isChasing = false;
+    Collider2D aggroCircle;
+    float direction = 0f;
+    internal bool canAttack = false;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         facingLeft = new Vector2(-transform.localScale.x, transform.localScale.y);
-        previousVelocity = rb.velocity;
     }
 
     private void Update()
-    { 
-
-        playerDirection = playerPosition.position - transform.position;
-        hit = Physics2D.Raycast(transform.position, new Vector2(1.5f * changeDirection, -.5f), rayLength, layersToDetect);
-        playerDetectRight = Physics2D.Raycast(transform.position, transform.right, playerDetectDistance, playerLayer);
-        playerDetectLeft = Physics2D.Raycast(transform.position, -transform.right, playerDetectDistance, playerLayer);
-        Debug.DrawRay(transform.position, new Vector2(1.5f * changeDirection, -.5f), Color.magenta);
-        Debug.DrawRay(transform.position, new Vector2(10f, 0f), Color.magenta);
-        Debug.DrawRay(transform.position, new Vector2(-10f, 0f), Color.magenta);
-
+    {
+        ThingsToCalculate();
 
         if (hit.collider != null)
         {
             string turnAroundCollider = hit.collider.tag;
-            switch(turnAroundCollider)
+            switch (turnAroundCollider)
             {
                 case "Wall":
                 case "Water":
-                    Flip();
+                    if(!isChasing)
+                    {
+                        Flip();
+                    }
                     break;
             }
         }
-        else
+        
+        if (isChasing && Vector2.Dot(playerDirection.normalized, transform.right * changeDirection) < 0f)
         {
             Flip();
         }
-
-        if(playerDetectRight.collider != null)
-        {
-            string attackPlayer = playerDetectRight.collider.tag;
-            if(attackPlayer.Equals("Player"))
-            {
-                Debug.Log("Player Detected");
-                isChasing = true;
-            }
-        }
-        else if(playerDetectLeft.collider != null)
-        {
-            string attackPlayer = playerDetectLeft.collider.tag;
-            if (attackPlayer.Equals("Player"))
-            {
-                Debug.Log("Player Detected");
-                isChasing = true;
-            }
-        }
+        
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        ChasePlayer();
+        EnemyMovement();
     }
 
-    private void ChasePlayer()
+    private void ThingsToCalculate()
     {
-        if(Mathf.Abs(transform.position.x - playerPosition.position.x) < attackDistance)
+        playerDirection = playerPosition.position - transform.position;
+        hit = Physics2D.Raycast(transform.position, new Vector2(1.5f * changeDirection, -.5f), rayLength, layersToDetect);
+
+        Debug.DrawRay(transform.position, new Vector2(1.5f * changeDirection, -.5f), Color.magenta);
+    }
+
+    private void EnemyMovement()
+    {
+        aggroCircle = Physics2D.OverlapCircle(transform.position, playerDetectDistance, playerLayer);
+        if(aggroCircle != null )
         {
-            rb.velocity = Vector2.zero;
-        }
-        else
-        {
-            if (isChasing)
+            isChasing = true;
+            if (Math.Abs(playerDirection.x) < attackDistance)
             {
-                rb.velocity = new Vector2(playerDirection.normalized.x * Time.deltaTime * chaseSpeed, 0f);
-                if (Vector2.Dot(rb.velocity.normalized, previousVelocity.normalized) < 0f)
-                {
-                    Flip();
-                }
-                previousVelocity = rb.velocity;
+                canAttack = true;
+                rb.velocity = new Vector2(0f, 0f);
             }
             else
             {
-                rb.velocity = new Vector2(speed * changeDirection * Time.deltaTime, 0f);
+                canAttack = false;
+                rb.velocity = new Vector2((direction = playerDirection.normalized.x < 0 ? -1f : 1f) * Time.deltaTime * chaseSpeed, 0f);
             }
+        }
+        else
+        {
+            canAttack = false;   
+            isChasing = false;
+            rb.velocity = new Vector2(speed * changeDirection * Time.deltaTime, 0f);
         }
     }
 
     private void Flip()
     {
+        bodySprite.sortingOrder = -1;
         if (isFacingLeft)
         {
-            bodySprite.sortingOrder = -1;
             isFacingLeft = false;
             transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
             changeDirection = -1;
         }
         else if (!isFacingLeft)
         {
-            bodySprite.sortingOrder = -1;
             isFacingLeft = true;
             transform.localScale = facingLeft;
             changeDirection = 1;
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, playerDetectDistance);
     }
 }
