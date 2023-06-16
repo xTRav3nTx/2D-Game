@@ -25,8 +25,6 @@ public class EnemyMove : MonoBehaviour
     [SerializeField]
     private LayerMask playerLayer;
     private RaycastHit2D hit;
-    private RaycastHit2D playerDetectFront;
-    private RaycastHit2D playerDetectBehind;
 
 
     [SerializeField]
@@ -40,33 +38,35 @@ public class EnemyMove : MonoBehaviour
     Collider2D aggroCircle;
     float direction = 0f;
     internal bool canAttack = false;
+    private EnemyAnimation anim;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         facingLeft = new Vector2(-transform.localScale.x, transform.localScale.y);
+        anim = GetComponent<EnemyAnimation>();
     }
 
     private void Update()
     {
         ThingsToCalculate();
 
-        if (hit.collider != null)
+        if(!isChasing)
         {
-            string turnAroundCollider = hit.collider.tag;
-            switch (turnAroundCollider)
+            if (hit.collider != null)
             {
-                case "Wall":
-                case "Water":
-                    if(!isChasing)
-                    {
+                string turnAroundCollider = hit.collider.tag;
+                switch (turnAroundCollider)
+                {
+                    case "Wall":
+                    case "Water":
                         Flip();
-                    }
-                    break;
+                        break;
+                }
             }
         }
         
-        if (isChasing && Vector2.Dot(playerDirection.normalized, transform.right * changeDirection) < 0f)
+        if (isChasing && Vector2.Dot(playerDirection.normalized, transform.right * changeDirection) < 0f && !anim.isAttacking)
         {
             Flip();
         }
@@ -82,14 +82,25 @@ public class EnemyMove : MonoBehaviour
     {
         playerDirection = playerPosition.position - transform.position;
         hit = Physics2D.Raycast(transform.position, new Vector2(1.5f * changeDirection, -.5f), rayLength, layersToDetect);
-
         Debug.DrawRay(transform.position, new Vector2(1.5f * changeDirection, -.5f), Color.magenta);
+    }
+
+    private bool IsPlayerReachable()
+    {
+        switch(hit.collider?.tag)
+        {
+            case "Wall":
+            case "Water":
+                return false;
+            default:
+                return true;
+        }
     }
 
     private void EnemyMovement()
     {
         aggroCircle = Physics2D.OverlapCircle(transform.position, playerDetectDistance, playerLayer);
-        if(aggroCircle != null )
+        if(aggroCircle != null)
         {
             isChasing = true;
             if (Math.Abs(playerDirection.x) < attackDistance)
@@ -97,10 +108,15 @@ public class EnemyMove : MonoBehaviour
                 canAttack = true;
                 rb.velocity = new Vector2(0f, 0f);
             }
-            else
+            else if(!anim.isAttacking)
             {
                 canAttack = false;
                 rb.velocity = new Vector2((direction = playerDirection.normalized.x < 0 ? -1f : 1f) * Time.deltaTime * chaseSpeed, 0f);
+            }
+
+            if (!IsPlayerReachable())
+            {
+                rb.velocity = new Vector2(0f, 0f);
             }
         }
         else
@@ -109,6 +125,7 @@ public class EnemyMove : MonoBehaviour
             isChasing = false;
             rb.velocity = new Vector2(speed * changeDirection * Time.deltaTime, 0f);
         }
+
     }
 
     private void Flip()

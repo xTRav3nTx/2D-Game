@@ -7,17 +7,27 @@ public class HealthBar : MonoBehaviour
 {
     private Image healthBar;
 
+    [SerializeField]
     private Player_Health playerHealth;
+    [SerializeField]
+    private Enemy_Health enemyhealth;
 
 
     private void Awake()
     {
         healthBar = GetComponent<Image>(); 
-        playerHealth = FindAnyObjectByType<Player_Health>();
     }
 
     private void Update()
     {
-        healthBar.fillAmount = playerHealth.Health;
+        if (playerHealth != null)
+        {
+            healthBar.fillAmount = playerHealth.Health;
+        }
+        if(enemyhealth != null)
+        {
+            healthBar.fillAmount = enemyhealth.Health;
+        }
+        
     }
 }

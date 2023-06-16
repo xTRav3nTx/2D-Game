@@ -13,6 +13,4 @@ public class Spikes : MonoBehaviour
             playerhealth.TakeDamage(.15f);
         }
     }
-
-
 }

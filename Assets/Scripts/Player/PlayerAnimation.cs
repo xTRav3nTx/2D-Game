@@ -84,7 +84,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         if(isAttacking)
         {
-            timer -= Time.deltaTime;
+            timer -= Time.fixedDeltaTime;
         }
     }
 }
