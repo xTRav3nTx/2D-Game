@@ -117,12 +117,14 @@ public class EnemyMove : MonoBehaviour
             else if(!anim.isAttacking)
             {
                 canAttack = false;
-                rb.velocity = new Vector2((direction = playerDirection.normalized.x < 0 ? -1f : 1f) * Time.deltaTime * chaseSpeed, 0f);
-            }
-
-            if (!IsPlayerReachable())
-            {
-                rb.velocity = new Vector2(0f, 0f);
+                if (!IsPlayerReachable())
+                {
+                    rb.velocity = new Vector2(0f, 0f);
+                }
+                else
+                {
+                    rb.velocity = new Vector2((direction = playerDirection.normalized.x < 0 ? -1f : 1f) * Time.deltaTime * chaseSpeed, 0f);
+                }
             }
         }
         else
@@ -136,7 +138,7 @@ public class EnemyMove : MonoBehaviour
 
     private void Flip()
     {
-        bodySprite.sortingOrder = -1;
+        bodySprite.sortingOrder = 0;
         if (isFacingLeft)
         {
             isFacingLeft = false;

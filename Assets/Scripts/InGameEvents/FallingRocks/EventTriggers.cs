@@ -15,7 +15,7 @@ public class EventTriggers : MonoBehaviour
         }
         if (this.name == "StopEventCollider" && other.CompareTag("Player"))
         {
-            parent.startEvent = false;
+            parent.stopEvent = true;
         }
     }
 }
