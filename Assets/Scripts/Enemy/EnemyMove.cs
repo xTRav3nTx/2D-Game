@@ -40,11 +40,17 @@ public class EnemyMove : MonoBehaviour
     internal bool canAttack = false;
     private EnemyAnimation anim;
 
+    [SerializeField]
+    private Canvas canvas;
+
+    private Player_Health playerHealth;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         facingLeft = new Vector2(-transform.localScale.x, transform.localScale.y);
         anim = GetComponent<EnemyAnimation>();
+        playerHealth = FindAnyObjectByType<Player_Health>();
     }
 
     private void Update()
@@ -100,7 +106,7 @@ public class EnemyMove : MonoBehaviour
     private void EnemyMovement()
     {
         aggroCircle = Physics2D.OverlapCircle(transform.position, playerDetectDistance, playerLayer);
-        if(aggroCircle != null)
+        if(aggroCircle != null && playerHealth.IsAlive)
         {
             isChasing = true;
             if (Math.Abs(playerDirection.x) < attackDistance)
@@ -143,6 +149,7 @@ public class EnemyMove : MonoBehaviour
             transform.localScale = facingLeft;
             changeDirection = 1;
         }
+        canvas.transform.localScale = new Vector2(-canvas.transform.localScale.x, canvas.transform.localScale.y);
     }
 
     private void OnDrawGizmos()

@@ -8,6 +8,7 @@ public class EnemyAnimation : MonoBehaviour
     const string ATTACK = "Attack";
     const string IDLE = "Idle";
     const string RUN = "Run";
+    const string DIE = "Die";
     
 
     [SerializeField]
@@ -16,6 +17,7 @@ public class EnemyAnimation : MonoBehaviour
     private Rigidbody2D rb;
 
     private EnemyMove move;
+    private Enemy_Health health;
 
     internal bool isAttacking = false;
 
@@ -24,30 +26,47 @@ public class EnemyAnimation : MonoBehaviour
     private void Awake()
     {
         move = GetComponent<EnemyMove>();
+        health = GetComponent<Enemy_Health>();
     }
 
 
     // Update is called once per frame
     void FixedUpdate()
     {
-
-        if (rb.velocity.x < -.01f || rb.velocity.x > .01f && !isAttacking)
+        if (!health.IsAlive)
         {
-            ChangeAnimationState(RUN);
-        }
-        if (rb.velocity.x == 0 && !isAttacking)
-        {
-            ChangeAnimationState(IDLE);
-        }
-        if (move.canAttack)
-        {
-            if(!isAttacking)
+            ChangeAnimationState(DIE);
+            if (IsAnimationFinished(DIE))
             {
-                isAttacking = true;
-                ChangeAnimationState(ATTACK);
-                Invoke("AttackComplete", enemy_animator.GetCurrentAnimatorStateInfo(0).length);
+                Destroy(this.gameObject);
+                this.enabled = false;
             }
-            
+        }
+        else
+        {
+            if (rb.velocity.x < -.01f || rb.velocity.x > .01f && !isAttacking)
+            {
+                ChangeAnimationState(RUN);
+            }
+            if (rb.velocity.x == 0 && !isAttacking)
+            {
+                ChangeAnimationState(IDLE);
+            }
+            if (move.canAttack)
+            {
+                if (health.tookDamage)
+                {
+                    ChangeAnimationState(IDLE);
+                    return;
+                }
+                if (!isAttacking)
+                {
+                    isAttacking = true;
+                    ChangeAnimationState(ATTACK);
+                    Invoke("AttackComplete", enemy_animator.GetCurrentAnimatorStateInfo(0).length);
+                }
+
+            }
         }
 
     }
@@ -58,7 +77,7 @@ public class EnemyAnimation : MonoBehaviour
 
         if (stateInfo.IsName(state))
         {
-            if (stateInfo.normalizedTime >= 1f)
+            if (stateInfo.normalizedTime >= stateInfo.length)
             {
                 return true;
             }

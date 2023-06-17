@@ -278,7 +278,6 @@ GameObject:
   - component: {fileID: 71169773}
   - component: {fileID: 71169776}
   - component: {fileID: 71169775}
-  - component: {fileID: 71169774}
   - component: {fileID: 71169777}
   m_Layer: 5
   m_Name: Health
@@ -307,20 +306,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &71169774
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 71169772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87a0a59fe3698754195cc55ff21ae435, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerHealth: {fileID: 0}
-  enemyhealth: {fileID: 0}
 --- !u!114 &71169775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1302,10 +1287,10 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 253381391}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.0006451532, y: 0.6026098}
@@ -1321,6 +1306,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.3506161, y: 0.8281523}
   m_EdgeRadius: 0
+--- !u!114 &253381396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253381391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ffcd0a477fb9c042a36a9cadd0a7de9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &281695648
 GameObject:
   m_ObjectHideFlags: 0
@@ -2834,6 +2831,10 @@ PrefabInstance:
       value: 150
       objectReference: {fileID: 0}
     - target: {fileID: -7189069675443294035, guid: 1c9a3b3208bcec640a6534e02524642a, type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 2005036428}
+    - target: {fileID: -7189069675443294035, guid: 1c9a3b3208bcec640a6534e02524642a, type: 3}
       propertyPath: bodySprite
       value: 
       objectReference: {fileID: 1867810118}
@@ -2886,12 +2887,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 292077509651305971, guid: 1c9a3b3208bcec640a6534e02524642a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 292077509651305971, guid: 1c9a3b3208bcec640a6534e02524642a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 292077509651305971, guid: 1c9a3b3208bcec640a6534e02524642a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 227.71013
+      value: 219.31
       objectReference: {fileID: 0}
     - target: {fileID: 292077509651305971, guid: 1c9a3b3208bcec640a6534e02524642a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -15.506287
+      value: -15.59
       objectReference: {fileID: 0}
     - target: {fileID: 292077509651305971, guid: 1c9a3b3208bcec640a6534e02524642a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2923,6 +2932,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 292077509651305971, guid: 1c9a3b3208bcec640a6534e02524642a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 500171520196789217, guid: 1c9a3b3208bcec640a6534e02524642a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 500197621201942037, guid: 1c9a3b3208bcec640a6534e02524642a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 501895596188546787, guid: 1c9a3b3208bcec640a6534e02524642a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 501895596188546787, guid: 1c9a3b3208bcec640a6534e02524642a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 501944692320965183, guid: 1c9a3b3208bcec640a6534e02524642a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 501972400222590947, guid: 1c9a3b3208bcec640a6534e02524642a, type: 3}
+      propertyPath: m_SortingOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8355625247281669211, guid: 1c9a3b3208bcec640a6534e02524642a, type: 3}
@@ -6516,6 +6549,49 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
+--- !u!1 &2097847890 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 288498935312036491, guid: 1c9a3b3208bcec640a6534e02524642a, type: 3}
+  m_PrefabInstance: {fileID: 854069633}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2097847893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097847890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2f0a88deb7181e4a8bb05839035f2db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &2097847894
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097847890}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0027605072, y: 0.6717445}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5064954, y: 0.11925681}
+    oldSize: {x: 0.31, y: 1.1}
+    newSize: {x: 0.31, y: 1.1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.46048075, y: 0.93238413}
+  m_EdgeRadius: 0
 --- !u!1001 &2133441113
 PrefabInstance:
   m_ObjectHideFlags: 0

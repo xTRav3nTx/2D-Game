@@ -28,6 +28,7 @@ public class PlayerAnimation : MonoBehaviour
             {
                 playerAnim.Play("Die");
                 playerController.enabled = false;
+                this.gameObject.GetComponent<Collider2D>().enabled = false;
             }
             else
             {
