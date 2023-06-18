@@ -33,7 +33,7 @@ public class Enemy_Health : MonoBehaviour
         if(tookDamage)
         {
             enemyMove.transform.position = Vector2.Lerp(transform.position, new Vector2(transform.position.x + 1.5f, transform.position.y), Time.deltaTime * 2f);
-            Invoke("TookDamageComplete", .5f);
+            Invoke(nameof(TookDamageComplete), .5f);
         }
     }
 

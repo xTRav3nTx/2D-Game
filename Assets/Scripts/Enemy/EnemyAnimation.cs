@@ -44,14 +44,6 @@ public class EnemyAnimation : MonoBehaviour
         }
         else
         {
-            if (rb.velocity.x < -.01f || rb.velocity.x > .01f && !isAttacking)
-            {
-                ChangeAnimationState(RUN);
-            }
-            if (rb.velocity.x == 0 && !isAttacking)
-            {
-                ChangeAnimationState(IDLE);
-            }
             if (move.canAttack)
             {
                 if (health.tookDamage)
@@ -63,10 +55,20 @@ public class EnemyAnimation : MonoBehaviour
                 {
                     isAttacking = true;
                     ChangeAnimationState(ATTACK);
-                    Invoke("AttackComplete", enemy_animator.GetCurrentAnimatorStateInfo(0).length);
+                    Invoke(nameof(AttackComplete), enemy_animator.GetCurrentAnimatorStateInfo(0).length);
                 }
 
             }
+            if(move.IsMoving)
+            {
+                ChangeAnimationState(RUN);
+            }
+            else
+            {
+                ChangeAnimationState(IDLE);
+            }
+            
+
         }
 
     }

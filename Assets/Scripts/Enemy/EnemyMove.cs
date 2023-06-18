@@ -37,8 +37,11 @@ public class EnemyMove : MonoBehaviour
     private bool isChasing = false;
     Collider2D aggroCircle;
     float direction = 0f;
-    internal bool canAttack = false;
+    public bool canAttack = false;
     private EnemyAnimation anim;
+
+    [SerializeField]
+    public bool IsMoving = false;
 
     [SerializeField]
     private Canvas canvas;
@@ -103,6 +106,7 @@ public class EnemyMove : MonoBehaviour
         }
     }
 
+    //fix attack animation and movement
     private void EnemyMovement()
     {
         aggroCircle = Physics2D.OverlapCircle(transform.position, playerDetectDistance, playerLayer);
@@ -111,6 +115,7 @@ public class EnemyMove : MonoBehaviour
             isChasing = true;
             if (Math.Abs(playerDirection.x) < attackDistance)
             {
+                IsMoving = false;
                 canAttack = true;
                 rb.velocity = new Vector2(0f, 0f);
             }
@@ -119,19 +124,22 @@ public class EnemyMove : MonoBehaviour
                 canAttack = false;
                 if (!IsPlayerReachable())
                 {
+                    IsMoving = false;
                     rb.velocity = new Vector2(0f, 0f);
                 }
                 else
                 {
-                    rb.velocity = new Vector2((direction = playerDirection.normalized.x < 0 ? -1f : 1f) * Time.deltaTime * chaseSpeed, 0f);
+                    IsMoving = true;
+                    rb.velocity = new Vector2((direction = playerDirection.normalized.x < 0 ? -1f : 1f) * Time.fixedDeltaTime * chaseSpeed, 0f);
                 }
             }
         }
         else
         {
+            IsMoving = true;
             canAttack = false;   
             isChasing = false;
-            rb.velocity = new Vector2(speed * changeDirection * Time.deltaTime, 0f);
+            rb.velocity = new Vector2(speed * changeDirection * Time.fixedDeltaTime, 0f);
         }
 
     }
