@@ -22,11 +22,11 @@ public class PlayerAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!IsAnimationFinished("Die"))
+        if (!IsAnimationFinished(StringConstants.DIE))
         {
             if (health.IsAlive == false)
             {
-                playerAnim.Play("Die");
+                playerAnim.Play(StringConstants.DIE);
                 playerController.enabled = false;
                 this.gameObject.GetComponent<Collider2D>().enabled = false;
             }
@@ -36,12 +36,12 @@ public class PlayerAnimation : MonoBehaviour
                 {
                     isAttacking = true;
                     timer = timeBetweenAttacks;
-                    playerAnim.Play("Attack");
+                    playerAnim.Play(StringConstants.ATTACK);
                 }
 
                 AttackTimer();
 
-                if (IsAnimationFinished("Attack"))
+                if (IsAnimationFinished(StringConstants.ATTACK))
                 {
                     isAttacking = false;
                     timer = 0f;
@@ -51,15 +51,15 @@ public class PlayerAnimation : MonoBehaviour
                 {
                     if (playerController.Grounded && playerController.Input.X != 0)
                     {
-                        playerAnim.Play("Run");
+                        playerAnim.Play(StringConstants.RUN);
                     }
                     else if (!playerController.Grounded)
                     {
-                        playerAnim.Play("Jump");
+                        playerAnim.Play(StringConstants.JUMP);
                     }
                     else
                     {
-                        playerAnim.Play("Idle");
+                        playerAnim.Play(StringConstants.IDLE);
                     }
                 }
             }

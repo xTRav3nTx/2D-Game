@@ -7,7 +7,7 @@ public class Enemy_Health : MonoBehaviour
     [SerializeField]
     private float health = 1f;
     public float Health => health;
-    public bool IsAlive => health > 0f;
+    public bool IsAlive => health > 0.001f;
 
     public bool tookDamage = false;
 

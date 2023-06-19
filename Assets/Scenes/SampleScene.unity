@@ -1040,7 +1040,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   shadowSize: 1.3
-  fallingRockSpawnHeight: 18
+  fallingRockSpawnHeight: 26
   shadowPrefab: {fileID: 1402319670219323509, guid: 475b727df05df3e4f949c9809ec7d586, type: 3}
   fallingRockPrefab: {fileID: 9172563628696163004, guid: 3c130dad96bd9e141b325d0b540236cd, type: 3}
   rockHolder: {fileID: 742717251}
@@ -1049,7 +1049,7 @@ MonoBehaviour:
   startEvent: 0
   stopEvent: 0
   growTime: 1.5
-  spawnTimer: 0.75
+  spawnTimer: 1
 --- !u!4 &373070666 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1778749603724638565, guid: e8749245f5abcb1488e4f933fd1fb9af, type: 3}
@@ -2880,7 +2880,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1566664589}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 175.1, y: -8.2, z: -10}
+  m_LocalPosition: {x: -31.7, y: 7.200001, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3286,7 +3286,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1802076837}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 175.1, y: -8.2, z: -10}
+  m_LocalPosition: {x: -31.7, y: 7.200001, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3889,11 +3889,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 106723161668890632, guid: 900932a4a3b8320419a535f1b1f8fd88, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 175.1
+      value: -31.7
       objectReference: {fileID: 0}
     - target: {fileID: 106723161668890632, guid: 900932a4a3b8320419a535f1b1f8fd88, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -15.6
+      value: -0.2
       objectReference: {fileID: 0}
     - target: {fileID: 106723161668890632, guid: 900932a4a3b8320419a535f1b1f8fd88, type: 3}
       propertyPath: m_LocalPosition.z

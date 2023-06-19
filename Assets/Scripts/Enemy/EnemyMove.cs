@@ -98,8 +98,8 @@ public class EnemyMove : MonoBehaviour
     {
         switch(hit.collider?.tag)
         {
-            case "Wall":
-            case "Water":
+            case StringConstants.WALL:
+            case StringConstants.WATER:
                 return false;
             default:
                 return true;
@@ -113,22 +113,21 @@ public class EnemyMove : MonoBehaviour
         if(aggroCircle != null && playerHealth.IsAlive)
         {
             isChasing = true;
-            if (Math.Abs(playerDirection.x) < attackDistance)
+            if (CanAttack())
             {
                 IsMoving = false;
-                canAttack = true;
                 rb.velocity = new Vector2(0f, 0f);
             }
-            else if(!anim.isAttacking)
+            else
             {
-                canAttack = false;
                 if (!IsPlayerReachable())
                 {
                     IsMoving = false;
                     rb.velocity = new Vector2(0f, 0f);
                 }
-                else
+                else if(!anim.isAttacking)
                 {
+
                     IsMoving = true;
                     rb.velocity = new Vector2((direction = playerDirection.normalized.x < 0 ? -1f : 1f) * Time.fixedDeltaTime * chaseSpeed, 0f);
                 }
@@ -142,6 +141,19 @@ public class EnemyMove : MonoBehaviour
             rb.velocity = new Vector2(speed * changeDirection * Time.fixedDeltaTime, 0f);
         }
 
+    }
+
+    private bool CanAttack()
+    {
+        if (Math.Abs(playerDirection.x) < attackDistance)
+        {
+            canAttack = true;
+        }
+        else
+        {
+            canAttack = false;
+        }
+        return canAttack;
     }
 
     private void Flip()

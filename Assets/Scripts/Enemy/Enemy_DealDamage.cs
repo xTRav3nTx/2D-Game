@@ -8,7 +8,7 @@ public class Enemy_DealDamage : MonoBehaviour
     {
         switch (other.tag)
         {
-            case "Player":
+            case StringConstants.PLAYER:
                 Player_Health player_Health = other.GetComponent<Player_Health>();
                 player_Health.TakeDamage(.15f);
                 break;

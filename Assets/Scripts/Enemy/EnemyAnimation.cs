@@ -5,10 +5,6 @@ using UnityEngine;
 
 public class EnemyAnimation : MonoBehaviour
 {
-    const string ATTACK = "Attack";
-    const string IDLE = "Idle";
-    const string RUN = "Run";
-    const string DIE = "Die";
     
 
     [SerializeField]
@@ -35,8 +31,8 @@ public class EnemyAnimation : MonoBehaviour
     {
         if (!health.IsAlive)
         {
-            ChangeAnimationState(DIE);
-            if (IsAnimationFinished(DIE))
+            ChangeAnimationState(StringConstants.DIE);
+            if (IsAnimationFinished(StringConstants.DIE))
             {
                 Destroy(this.gameObject);
                 this.enabled = false;
@@ -48,27 +44,24 @@ public class EnemyAnimation : MonoBehaviour
             {
                 if (health.tookDamage)
                 {
-                    ChangeAnimationState(IDLE);
+                    ChangeAnimationState(StringConstants.IDLE);
                     return;
                 }
                 if (!isAttacking)
                 {
                     isAttacking = true;
-                    ChangeAnimationState(ATTACK);
+                    ChangeAnimationState(StringConstants.ATTACK);
                     Invoke(nameof(AttackComplete), enemy_animator.GetCurrentAnimatorStateInfo(0).length);
                 }
-
             }
             if(move.IsMoving)
             {
-                ChangeAnimationState(RUN);
+                ChangeAnimationState(StringConstants.RUN);
             }
             else
             {
-                ChangeAnimationState(IDLE);
+                ChangeAnimationState(StringConstants.IDLE);
             }
-            
-
         }
 
     }

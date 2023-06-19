@@ -9,11 +9,11 @@ public class EventTriggers : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(this.name == "StartEventCollider" && other.CompareTag("Player"))
+        if(this.name == "StartEventCollider" && other.CompareTag(StringConstants.PLAYER))
         {
             parent.startEvent = true;
         }
-        if (this.name == "StopEventCollider" && other.CompareTag("Player"))
+        if (this.name == "StopEventCollider" && other.CompareTag(StringConstants.PLAYER))
         {
             parent.stopEvent = true;
         }
